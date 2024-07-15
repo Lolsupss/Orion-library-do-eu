@@ -1,3 +1,5 @@
+
+
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -6,27 +8,23 @@ local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
 local OrionLib = {
-    Elements = {},
-    ThemeObjects = {},
-    Connections = {},
-    Flags = {},
-    Themes = {
-        Default = {
-            Main = Color3.fromRGB(255, 255, 255),      -- Branco
-            Second = Color3.fromRGB(240, 240, 240),    -- Cinza claro
-            Stroke = Color3.fromRGB(41, 128, 185),     -- Azul médio
-            Divider = Color3.fromRGB(52, 152, 219),    -- Azul vibrante
-            Text = Color3.fromRGB(0, 0, 0),            -- Preto
-            TextDark = Color3.fromRGB(44, 62, 80),     -- Cinza escuro
-            Background = Color3.fromRGB(72, 61, 139),  -- Fundo (72, 61, 139)
-            Accent1 = Color3.fromRGB(192, 57, 43),     -- Vermelho escuro
-            Accent2 = Color3.fromRGB(39, 174, 96),     -- Verde
-            Accent3 = Color3.fromRGB(241, 196, 15)     -- Amarelo
-        }
-    },
-    SelectedTheme = "Default",
-    Folder = nil,
-    SaveCfg = false
+	Elements = {},
+	ThemeObjects = {},
+	Connections = {},
+	Flags = {},
+	Themes = {
+		Default = {
+			Main = Color3.fromRGB(25, 25, 25),
+			Second = Color3.fromRGB(32, 32, 32),
+			Stroke = Color3.fromRGB(60, 60, 60),
+			Divider = Color3.fromRGB(60, 60, 60),
+			Text = Color3.fromRGB(240, 240, 240),
+			TextDark = Color3.fromRGB(150, 150, 150)
+		}
+	},
+	SelectedTheme = "Default",
+	Folder = nil,
+	SaveCfg = false
 }
 
 --Feather Icons https://github.com/evoincorp/lucideblox/tree/master/src/modules/util - Created by 7kayoh
