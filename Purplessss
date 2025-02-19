@@ -1179,7 +1179,7 @@ function OrionLib:MakeWindow(WindowConfig)
 
 						AddConnection(OptionBtn.MouseButton1Click, function()
 							Dropdown:Set(Option)
-							SaveCfg(game.GameId)
+							SaveCfg(game.GameId) 
 						end)
 
 						Dropdown.Buttons[Option] = OptionBtn
