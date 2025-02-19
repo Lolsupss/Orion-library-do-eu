@@ -1,5 +1,3 @@
-
-
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -8,23 +6,23 @@ local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
 local OrionLib = {
-	Elements = {},
-	ThemeObjects = {},
-	Connections = {},
-	Flags = {},
-	Themes = {
-		Default = {
-			Main = Color3.fromRGB(240, 240, 240),
-			Second = Color3.fromRGB(255, 255, 255),
-			Stroke = Color3.fromRGB(200, 200, 200), 
-			Divider = Color3.fromRGB(180, 180, 180),
-			Text = Color3.fromRGB(40, 40, 40),
-			TextDark = Color3.fromRGB(100, 100, 100)
-		}
-	},
-	SelectedTheme = "Default",
-	Folder = nil,
-	SaveCfg = false
+    Elements = {},
+    ThemeObjects = {},
+    Connections = {},
+    Flags = {},
+    Themes = {
+        Default = {
+            Main = Color3.fromRGB(240, 240, 240),
+            Second = Color3.fromRGB(255, 255, 255),
+            Stroke = Color3.fromRGB(200, 200, 200), 
+            Divider = Color3.fromRGB(180, 180, 180),
+            Text = Color3.fromRGB(40, 40, 40),
+            TextDark = Color3.fromRGB(100, 100, 100)
+        }
+    },
+    SelectedTheme = "Default",
+    Folder = nil,
+    SaveCfg = false
 }
 
 --Feather Icons https://github.com/evoincorp/lucideblox/tree/master/src/modules/util - Created by 7kayoh
@@ -101,7 +99,7 @@ local function MakeDraggable(DragPoint, Main)
 	pcall(function()
 		local Dragging, DragInput, MousePos, FramePos = false
 		AddConnection(DragPoint.InputBegan, function(Input)
-			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 				Dragging = true
 				MousePos = Input.Position
 				FramePos = Main.Position
@@ -114,14 +112,14 @@ local function MakeDraggable(DragPoint, Main)
 			end
 		end)
 		AddConnection(DragPoint.InputChanged, function(Input)
-			if Input.UserInputType == Enum.UserInputType.MouseMovement then
+			if Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch then
 				DragInput = Input
 			end
 		end)
 		AddConnection(UserInputService.InputChanged, function(Input)
 			if Input == DragInput and Dragging then
 				local Delta = Input.Position - MousePos
-				--TweenService:Create(Main, TweenInfo.new(0.05, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
+				TweenService:Create(Main, TweenInfo.new(0.05, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
 				Main.Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)
 			end
 		end)
@@ -244,7 +242,7 @@ local function SaveCfg(Name)
 	writefile(OrionLib.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
 end
 
-local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
+local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3,Enum.UserInputType.Touch}
 local BlacklistedKeys = {Enum.KeyCode.Unknown,Enum.KeyCode.W,Enum.KeyCode.A,Enum.KeyCode.S,Enum.KeyCode.D,Enum.KeyCode.Up,Enum.KeyCode.Left,Enum.KeyCode.Down,Enum.KeyCode.Right,Enum.KeyCode.Slash,Enum.KeyCode.Tab,Enum.KeyCode.Backspace,Enum.KeyCode.Escape}
 
 local function CheckKey(Table, Key)
@@ -366,7 +364,7 @@ CreateElement("Label", function(Text, TextSize, Transparency)
 		TextColor3 = Color3.fromRGB(240, 240, 240),
 		TextTransparency = Transparency or 0,
 		TextSize = TextSize or 15,
-		Font = Enum.Font.Gotham,
+		Font = Enum.Font.Roboto,
 		RichText = true,
 		BackgroundTransparency = 1,
 		TextXAlignment = Enum.TextXAlignment.Left
@@ -401,7 +399,7 @@ function OrionLib:MakeNotification(NotificationConfig)
 			Parent = NotificationHolder
 		})
 
-		local NotificationFrame = SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(25, 25, 25), 0, 10), {
+		local NotificationFrame = SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(0, 0, 0), 0, 10), {
 			Parent = NotificationParent, 
 			Size = UDim2.new(1, 0, 0, 0),
 			Position = UDim2.new(1, -55, 0, 0),
@@ -419,7 +417,10 @@ function OrionLib:MakeNotification(NotificationConfig)
 				Size = UDim2.new(1, -30, 0, 20),
 				Position = UDim2.new(0, 30, 0, 0),
 				Font = Enum.Font.GothamBold,
-				Name = "Title"
+				Name = "Title",
+				TextColor3 = Color3.fromRGB(187, 134, 252
+
+)  -- Cor da legenda (título)
 			}),
 			SetProps(MakeElement("Label", NotificationConfig.Content, 14), {
 				Size = UDim2.new(1, 0, 0, 0),
@@ -427,8 +428,9 @@ function OrionLib:MakeNotification(NotificationConfig)
 				Font = Enum.Font.GothamSemibold,
 				Name = "Content",
 				AutomaticSize = Enum.AutomaticSize.Y,
-				TextColor3 = Color3.fromRGB(200, 200, 200),
-				TextWrapped = true
+				TextColor3 = Color3.fromRGB(187, 134, 252
+
+),  -- Cor do conteúdo				TextWrapped = true
 			})
 		})
 
@@ -604,7 +606,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		Parent = Orion,
 		Position = UDim2.new(0.5, -307, 0.5, -172),
 		Size = UDim2.new(0, 615, 0, 344),
-		ClipsDescendants = true
+		BackgroundTransparency = 0.3
 	}), {
 		--SetProps(MakeElement("Image", "rbxassetid://3523728077"), {
 		--	AnchorPoint = Vector2.new(0.5, 0.5),
@@ -691,7 +693,9 @@ function OrionLib:MakeWindow(WindowConfig)
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = UDim2.new(0.5, 0, 0.4, 0),
 			Size = UDim2.new(0, 28, 0, 28),
-			ImageColor3 = Color3.fromRGB(255, 255, 255),
+			ImageColor3 = Color3.fromRGB(187, 134, 252
+
+),
 			ImageTransparency = 1
 		})
 
@@ -1055,19 +1059,19 @@ function OrionLib:MakeWindow(WindowConfig)
 				}), "Second")
 
 				SliderBar.InputBegan:Connect(function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 then 
+					if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then 
 						Dragging = true 
 					end 
 				end)
 				SliderBar.InputEnded:Connect(function(Input) 
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 then 
+					if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then 
 						Dragging = false 
 					end 
 				end)
 
 				UserInputService.InputChanged:Connect(function(Input)
-					if Dragging and Input.UserInputType == Enum.UserInputType.MouseMovement then 
-						local SizeScale = math.clamp((Input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
+					if Dragging then 
+						local SizeScale = math.clamp((Mouse.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
 						Slider:Set(SliderConfig.Min + ((SliderConfig.Max - SliderConfig.Min) * SizeScale)) 
 						SaveCfg(game.GameId)
 					end
@@ -1292,7 +1296,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Click.InputEnded, function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 						if Bind.Binding then return end
 						Bind.Binding = true
 						BindBox.Value.Text = ""
@@ -1568,7 +1572,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				ColorV = 1 - (math.clamp(ColorSelection.AbsolutePosition.Y - Color.AbsolutePosition.Y, 0, Color.AbsoluteSize.Y) / Color.AbsoluteSize.Y)
 
 				AddConnection(Color.InputBegan, function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						if ColorInput then
 							ColorInput:Disconnect()
 						end
@@ -1584,7 +1588,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Color.InputEnded, function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						if ColorInput then
 							ColorInput:Disconnect()
 						end
@@ -1592,7 +1596,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Hue.InputBegan, function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						if HueInput then
 							HueInput:Disconnect()
 						end;
@@ -1609,7 +1613,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Hue.InputEnded, function(input)
-					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 						if HueInput then
 							HueInput:Disconnect()
 						end
@@ -1754,8 +1758,6 @@ function OrionLib:MakeWindow(WindowConfig)
 	--	end
 	--end
 	
-
-	
 	return TabFunction
 end   
 
@@ -1764,49 +1766,3 @@ function OrionLib:Destroy()
 end
 
 return OrionLib
-
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "ScreenGui"
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ResetOnSpawn = false
-
-local Toggle = Instance.new("ImageButton")  -- Use ImageButton instead of TextButton
-Toggle.Name = "Toggle"
-Toggle.Parent = ScreenGui
-Toggle.BackgroundColor3 = Color3.fromRGB(25, 25, 25)  -- Black background color
-Toggle.BackgroundTransparency = 1  -- Set the button transparency to 
-Toggle.Position = UDim2.new(0, 0, 0.454706937, 0)
-Toggle.Size = UDim2.new(0, 30, 0, 30)  -- Smaller size for a compact circular button
-Toggle.Image = "rbxassetid://118979441318405"  -- Replace IMAGE_ID with your image asset ID
-Toggle.Draggable = true
-
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0.5, 0)  -- Make the button circular
-Corner.Parent = Toggle
-
-local isOn = false  -- Initial state is off
-
--- Function to handle the "On" state
-local function onButtonClicked()
-    -- Add your code for what should happen when the button is in the "On" state
-    if gethui():FindFirstChild("Orion") then
-        gethui().Orion.Enabled = not gethui().Orion.Enabled
-    end
-end
-
--- Function to handle the "Off" state
-local function offButtonClicked()
-    -- Add your code for what should happen when the button is in the "Off" state
-    if gethui():FindFirstChild("Orion") then
-        gethui().Orion.Enabled = not gethui().Orion.Enabled
-    end
-end
-
-Toggle.MouseButton1Click:Connect(function()
-    isOn = not isOn  -- Toggle state
-    if isOn then
-        onButtonClicked()  -- Call the function for "On" state
-    else
-        offButtonClicked()  -- Call the function for "Off" state
-    end
-end)
