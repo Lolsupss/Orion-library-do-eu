@@ -1766,3 +1766,49 @@ function OrionLib:Destroy()
 end
 
 return OrionLib
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ScreenGui"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+local Toggle = Instance.new("ImageButton")  -- Use ImageButton instead of TextButton
+Toggle.Name = "Toggle"
+Toggle.Parent = ScreenGui
+Toggle.BackgroundColor3 = Color3.fromRGB(25, 25, 25)  -- Black background color
+Toggle.BackgroundTransparency = 1  -- Set the button transparency to 
+Toggle.Position = UDim2.new(0, 0, 0.454706937, 0)
+Toggle.Size = UDim2.new(0, 30, 0, 30)  -- Smaller size for a compact circular button
+Toggle.Image = "rbxassetid://118979441318405"  -- Replace IMAGE_ID with your image asset ID
+Toggle.Draggable = true
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0.5, 0)  -- Make the button circular
+Corner.Parent = Toggle
+
+local isOn = false  -- Initial state is off
+
+-- Function to handle the "On" state
+local function onButtonClicked()
+    -- Add your code for what should happen when the button is in the "On" state
+    if gethui():FindFirstChild("Orion") then
+        gethui().Orion.Enabled = not gethui().Orion.Enabled
+    end
+end
+
+-- Function to handle the "Off" state
+local function offButtonClicked()
+    -- Add your code for what should happen when the button is in the "Off" state
+    if gethui():FindFirstChild("Orion") then
+        gethui().Orion.Enabled = not gethui().Orion.Enabled
+    end
+end
+
+Toggle.MouseButton1Click:Connect(function()
+    isOn = not isOn  -- Toggle state
+    if isOn then
+        onButtonClicked()  -- Call the function for "On" state
+    else
+        offButtonClicked()  -- Call the function for "Off" state
+    end
+end)
