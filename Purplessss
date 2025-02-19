@@ -1709,8 +1709,8 @@ function OrionLib:MakeWindow(WindowConfig)
 	end  
 	
 	OrionLib:MakeNotification({
-		Name = "UI Library Upgrade",
-		Content = "New UI Library Available at sirius.menu/discord and sirius.menu/rayfield",
+		Name = "Discord",
+		Content = "Entre no nosso discord https://discord.gg/ebT5hJ5HQg",
 		Time = 5
 	})
 	
